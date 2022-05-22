@@ -32,7 +32,11 @@ export default function Home() {
         <Container>
             <Title>Selecione o filme</Title>
             <FilmList>
-                {filmList.map((film, index) => <Film key={index} id={film.id} image={film.posterURL} />)}
+                {
+                    filmList.length === 0? 
+                    "Aguarde enquanto buscamos seus filmes":
+                    filmList.map((film, index) => <Film key={index} id={film.id} image={film.posterURL} />)
+                }
             </FilmList>
         </Container>
     )

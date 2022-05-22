@@ -3,6 +3,7 @@ import ApplicationHead from "./ApplicationHead";
 import GlobalStyle from "../theme/GlobalStyle";
 import Home from "./Home";
 import Header from "./Header";
+import MovieSessions from "./MovieSessions";
 
 export default function App() {
     return (
@@ -13,6 +14,7 @@ export default function App() {
             <Header />
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/sessoes/:idFilme" element={<MovieSessions />} />
             </Routes>
         </BrowserRouter>
         </>
