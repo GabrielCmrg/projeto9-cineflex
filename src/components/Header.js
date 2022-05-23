@@ -25,4 +25,5 @@ const Top = styled.div`
         color: inherit;
         cursor: pointer;
     }
-`
+`;
+

@@ -6,13 +6,24 @@ import styled from "styled-components";
 import Footer from "./shared/Footer";
 import Title from "./shared/Title";
 
-function Seat({ seatNumber, isAvailable, selectedSeats, setSelectedSeats }) {
+function Seat({
+    seatNumber, 
+    seatID, 
+    isAvailable, 
+    selectedSeats, 
+    setSelectedSeats,
+    selectedSeatsIDs,
+    setSelectedSeatsIDs
+}) {
+
     const [selected, setSelected] = React.useState(false);
     React.useEffect(() => {
         if (selected) {
-            setSelectedSeats([...selectedSeats, parseInt(seatNumber)]);
+            setSelectedSeatsIDs([...selectedSeatsIDs, seatID]);
+            setSelectedSeats([...selectedSeats, seatNumber]);
         } else {
-            setSelectedSeats(selectedSeats.filter(seatID => seatID !== parseInt(seatNumber)));
+            setSelectedSeatsIDs(selectedSeatsIDs.filter(seat => seat !== seatID));
+            setSelectedSeats(selectedSeats.filter(seat => seat !== seatNumber));
         }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,9 +80,9 @@ function Hint() {
 export default function Seats({ movieSectionInfo }) {
     const { idSessao: sessionID } = useParams();
     const [seats, setSeats] = React.useState([]);
-    const [selectedSeats, setSelectedSeats] = React.useState([]);
     const [sessionInfo, setSessionInfo] = React.useState({});
-    const navigate = useNavigate();
+    const [selectedSeatsIDs, setSelectedSeatsIDs] = React.useState([]);
+    const [selectedSeats, setSelectedSeats] = React.useState([]);
 
     React.useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${sessionID}/seats`);
@@ -95,12 +106,13 @@ export default function Seats({ movieSectionInfo }) {
 
     const [name, setName] = React.useState("");
     const [cpf, setCpf] = React.useState("");
+    const navigate = useNavigate();
 
     function sendToServer(e) {
         e.preventDefault();
         if (selectedSeats.length > 0) {
             const obj = {
-                ids: selectedSeats,
+                ids: selectedSeatsIDs,
                 name,
                 cpf: cpf.replaceAll('.', '').replaceAll('-', '')
             }
@@ -154,9 +166,12 @@ export default function Seats({ movieSectionInfo }) {
                         <Seat 
                             key={index} 
                             seatNumber={seat.name} 
+                            seatID={seat.id}
                             isAvailable={seat.isAvailable} 
                             selectedSeats={selectedSeats} 
                             setSelectedSeats={setSelectedSeats}
+                            selectedSeatsIDs={selectedSeatsIDs}
+                            setSelectedSeatsIDs={setSelectedSeatsIDs}
                         />
                     ))}
                 </SeatsLayout>
