@@ -34,13 +34,11 @@ export default function MovieSessions() {
     React.useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${filmID}/showtimes`);
         
-        promise
-            .then(response => {
-                setDays(response.data.days);
-                setFilmImage(response.data.posterURL);
-                setFilmName(response.data.title);
-            })
-            .catch(error => console.log("Deu Ruim", error.response));
+        promise.then(response => {
+            setDays(response.data.days);
+            setFilmImage(response.data.posterURL);
+            setFilmName(response.data.title);
+        });
         
     }, [filmID]);
 

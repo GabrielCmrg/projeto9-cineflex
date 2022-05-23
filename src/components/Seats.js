@@ -122,10 +122,7 @@ export default function Seats({ movieSectionInfo }) {
             movieSectionInfo.buyerCPF = cpf;
     
             const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", obj);
-            promise.then((res) => {
-                console.log(res);
-                navigate("/sucesso");
-            });
+            promise.then(() => navigate("/sucesso"));
         } else {
             alert("Selecione um assento.");
         }

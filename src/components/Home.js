@@ -22,9 +22,7 @@ export default function Home() {
     React.useEffect(() => {
         const promise = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/movies");
 
-        promise
-            .then(response => setFilmList(response.data))
-            .catch(error => console.log("deu ruim", error.response));
+        promise.then(response => setFilmList(response.data));
 
     }, [])
 

@@ -1,9 +1,17 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Header() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    
+    function goBack() {
+        navigate(-1);
+    }
+
     return (
         <Top>
+            {location.pathname !== "/"? <Button onClick={goBack}>{"<"}</Button>: null}
             <Link to="/">
                 CINEFLEX
             </Link>
@@ -19,6 +27,7 @@ const Top = styled.div`
     align-items: center;
     height: 67px;
     color: #E8833A;
+    position: relative;
 
     a {
         text-decoration: none;
@@ -27,3 +36,18 @@ const Top = styled.div`
     }
 `;
 
+const Button = styled.div`
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 37px;
+    height: 37px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: white;
+    background-color: #E8833A;
+    border-radius: 3px;
+    cursor: pointer;
+`
