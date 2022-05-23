@@ -95,18 +95,22 @@ export default function Seats({ movieSectionInfo }) {
 
     function sendToServer(e) {
         e.preventDefault();
-        const obj = {
-            ids: selectedSeats,
-            name,
-            cpf: cpf.replaceAll('.', '').replaceAll('-', '')
+        if (selectedSeats.length > 0) {
+            const obj = {
+                ids: selectedSeats,
+                name,
+                cpf: cpf.replaceAll('.', '').replaceAll('-', '')
+            }
+    
+            movieSectionInfo.seats = selectedSeats;
+            movieSectionInfo.buyerName = name;
+            movieSectionInfo.buyerCPF = cpf;
+    
+            const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", obj);
+            promise.then(() => navigate("/sucesso"));
+        } else {
+            alert("Selecione um assento.");
         }
-
-        movieSectionInfo.seats = selectedSeats;
-        movieSectionInfo.buyerName = name;
-        movieSectionInfo.buyerCPF = cpf;
-
-        const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", obj);
-        promise.then(() => navigate("/sucesso"));
     }
 
     function cpfMask(e) {
