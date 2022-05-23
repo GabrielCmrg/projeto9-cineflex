@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import React from "react";
 import styled from "styled-components";
@@ -64,11 +64,12 @@ function Hint() {
     )
 }
 
-export default function Seats() {
+export default function Seats({ movieSectionInfo }) {
     const { idSessao: sessionID } = useParams();
     const [seats, setSeats] = React.useState([]);
     const [selectedSeats, setSelectedSeats] = React.useState([]);
     const [sessionInfo, setSessionInfo] = React.useState({});
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${sessionID}/seats`);
@@ -82,6 +83,9 @@ export default function Seats() {
                     weekday: response.data.day.weekday,
                     time: response.data.name
                 })
+                movieSectionInfo.movie = response.data.movie.title;
+                movieSectionInfo.time = response.data.name;
+                movieSectionInfo.date = response.data.day.date;
             });
 
     }, [sessionID])
@@ -97,8 +101,12 @@ export default function Seats() {
             cpf: cpf.replaceAll('.', '').replaceAll('-', '')
         }
 
+        movieSectionInfo.seats = selectedSeats;
+        movieSectionInfo.buyerName = name;
+        movieSectionInfo.buyerCPF = cpf;
+
         const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", obj);
-        promise.then(response => console.log(response.data));
+        promise.then(() => navigate("/sucesso"));
     }
 
     function cpfMask(e) {
