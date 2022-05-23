@@ -14,6 +14,8 @@ function Seat({ seatNumber, isAvailable, selectedSeats, setSelectedSeats }) {
         } else {
             setSelectedSeats(selectedSeats.filter(seatID => seatID !== parseInt(seatNumber)));
         }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selected]);
 
     const colors = { bgColor: "", borderColor: "" };
@@ -87,7 +89,8 @@ export default function Seats({ movieSectionInfo }) {
                 movieSectionInfo.time = response.data.name;
                 movieSectionInfo.date = response.data.day.date;
             });
-
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sessionID])
 
     const [name, setName] = React.useState("");
@@ -107,7 +110,10 @@ export default function Seats({ movieSectionInfo }) {
             movieSectionInfo.buyerCPF = cpf;
     
             const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", obj);
-            promise.then(() => navigate("/sucesso"));
+            promise.then((res) => {
+                console.log(res);
+                navigate("/sucesso");
+            });
         } else {
             alert("Selecione um assento.");
         }
